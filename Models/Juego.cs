@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Timers;
 
-namespace PreguntadORT.Models{
+namespace Pozo.Models{
 
     public static class Juego{
 
@@ -17,29 +17,34 @@ namespace PreguntadORT.Models{
         private static List<Jugador> _listaJugando;
         private static List<Carta> _mazo;
 
-        public int MontoInicial{
+        public static int MontoInicial{
             get{return _montoInicial;}
             set{_montoInicial = value;}
         }
 
-        public int Monto{
+        public static int Monto{
             get{return _monto;}
             set{_monto = value;}
         }
 
-        public int RecordMonto{
+        public static int RecordMonto{
             get{return _recordMonto;}
             set{_montoInicial = value;}
         }
 
-        public string Ganador{
+        public static string Ganador{
             get{return _ganador;}
             set{_ganador = value;}
         }
 
-        public int CantJugadores{
+        public static int CantJugadores{
             get{return _cantJugadores;}
             set{_cantJugadores = value;}
+        }
+
+        public static List<Jugador> ListaJugando{
+            get{return _listaJugando;}
+            set{_listaJugando = value;}
         }
 
         public static void CargarPartida(int montoInicial, int cantJugadores, List<Jugador> listaJugando){
@@ -51,20 +56,22 @@ namespace PreguntadORT.Models{
             _mazo = BD.ObtenerMazo();
         }
 
-        public static List<Carta> ObtenerProximasCartas(){
+        public static List<Carta> ObtenerProximasCartas(int cant){
             if(_mazo.Count() > 1){
                 List<Carta> listaCarta = new List<Carta>();
-                listaCarta.push(_mazo[0]);
+                listaCarta.Add(_mazo[0]);
                 _mazo.RemoveAt(0);
-                listaCarta.push(_mazo[0]);
-                _mazo.RemoveAt(0);
+                if(cant > 1){
+                    listaCarta.Add(_mazo[0]);
+                    _mazo.RemoveAt(0);
+                }
                 return listaCarta;
             } else{
                 _mazo = BD.ObtenerMazo();
                 List<Carta> listaCarta = new List<Carta>();
-                listaCarta.push(_mazo[0]);
+                listaCarta.Add(_mazo[0]);
                 _mazo.RemoveAt(0);
-                listaCarta.push(_mazo[0]);
+                listaCarta.Add(_mazo[0]);
                 _mazo.RemoveAt(0);
                 return listaCarta;
             }

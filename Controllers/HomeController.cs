@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using BlackJack.Models;
-using System.Collections.Generic;
+using Pozo.Models;
 
-namespace BlackJack.Controllers;
+namespace Pozo.Controllers;
 
 public class HomeController : Controller
 {
@@ -27,17 +26,37 @@ public class HomeController : Controller
 
     public IActionResult CargarPartida(int cantJugadores, int montoInicial, List<Jugador> listaJugando){
         Juego.CargarPartida(montoInicial, cantJugadores, listaJugando);
-        return RedirectToAction("Jugar","Home");
+        return RedirectToAction("Jugar","Home", new {apuesta = false, montoApostado = -1});
     }
 
-    public IActionResult Jugar(){  
-        List<Carta> cartasProximas = Juego.ObtenerProximasCartas();
-        if(Juego.Monto > 0){
-            ViewBag.Cartas = cartasProximas;
-            if(apuesta == true){
-                
-            }
+    public List<Carta> Cartas;
+
+    public IActionResult Jugar(bool apuesta, int montoApostado, int idJugador){  
+        if(montoApostado == -1){
+            ViewBag.Cartas = Juego.ObtenerProximasCartas(2);
             return View();
+        }
+        if(Juego.Monto > 0){
+            if(apuesta == true){
+                ViewBag.CartaFinal = Juego.ObtenerProximasCartas(1);
+                if((ViewBag.CartaFinal.Numero > Cartas[0] && ViewBag.CartaFinal.Numero < Cartas[1]) || (ViewBag.CartaFinal.Numero < Cartas[0] && ViewBag.CartaFinal.Numero > Cartas[1])){
+                    foreach(Jugador jug in Juego.ListaJugando){
+                        if(jug.IdJugador == idJugador){
+                            jug.Saldo += montoApostado;
+                            Juego.Monto -= montoApostado;
+                        }
+                    }
+                }else{
+                    foreach(Jugador jug in Juego.ListaJugando){
+                        if(jug.IdJugador == idJugador){
+                            jug.Saldo -= montoApostado;
+                            Juego.Monto += montoApostado;
+                        }
+                    }
+                }
+            }
+            Cartas = Juego.ObtenerProximasCartas(2);
+            ViewBag.Cartas = Cartas;
         }
         
 

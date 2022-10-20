@@ -1,4 +1,4 @@
-namespace BlackJack.Models;
+namespace Pozo.Models;
 
 public class ErrorViewModel
 {
