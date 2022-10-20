@@ -1,5 +1,17 @@
+h1{
+  font-family: Fuente;
+  src: url(/wwwroot/Fuente.otf);
+  font-weight: 100;
+  font-size: 60px;
+}
+
+*{
+  background-image: url("/sources/FondoPozo.jpg");
+}
+
 html {
   font-size: 14px;
+  
 }
 
 @media (min-width: 768px) {
@@ -16,3 +28,5 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
