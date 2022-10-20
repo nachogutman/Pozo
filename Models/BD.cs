@@ -64,7 +64,7 @@ namespace Pozo.Models{
             return listaHistoriales;
         }
 
-        public static void eliminarJugador(int IdJugador){
+        public static void EliminarJugador(int IdJugador){
             string SQL = "DELETE FROM Jugador WHERE idJugador = @pIdJugador";
             using(SqlConnection db = new SqlConnection(_connectionString)){
                 db.Execute(SQL, new{pIdJugador = IdJugador});

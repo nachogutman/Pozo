@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Configuracion";
+}
+
+<a class="btn btn-secondary" style="float: right;" href='@Url.Action("Index", "Home")'> Volver a la Home </a>
+
+<div class="text-center">
+    <h1 class="display-4">Configuracion</h1>
+</div>
+
+<table class="table text-white">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Saldo</th>
+      <th scope="col">Record</th>
+      <th scope="col">Eliminar</th>
+      <th scope="col">Juega</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach(Jugador jug in @ViewBag.ListaJugadores){
+      <tr>
+        <th scope="row">@jug.IdJugador</th>
+        <td>@jug.Nombre</td>
+        <td>@jug.Saldo</td>
+        <td>@jug.Record</td>
+        <td> <a class="btn btn-danger" href='@Url.Action("EliminarJugador", "Home", new {id = @jug.IdJugador})'> Eliminar </a></td>
+        <td>
+          <div class="form-check align-center">
+            <input type="checkbox" onclick="check(@jug.IdJugador);" class="form-check-input" id="@jug.IdJugador" style="height: 30px; width: 30px;">
+          </div>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<script>
+  function check(id){
+   console.log(id);
+  }
+</script>

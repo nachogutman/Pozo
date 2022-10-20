@@ -42,11 +42,6 @@ namespace Pozo.Models{
             set{_cantJugadores = value;}
         }
 
-        public static List<Jugador> ListaJugando{
-            get{return _listaJugando;}
-            set{_listaJugando = value;}
-        }
-
         public static void CargarPartida(int montoInicial, int cantJugadores, List<Jugador> listaJugando){
             _montoInicial = montoInicial;
             _monto = montoInicial;

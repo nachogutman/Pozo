@@ -29,9 +29,7 @@ public class HomeController : Controller
         return RedirectToAction("Jugar","Home", new {apuesta = false, montoApostado = -1});
     }
 
-    public List<Carta> Cartas;
-
-    public IActionResult Jugar(bool apuesta, int montoApostado, int idJugador){  
+    public IActionResult Jugar(bool apuesta, int montoApostado){  
         if(montoApostado == -1){
             ViewBag.Cartas = Juego.ObtenerProximasCartas(2);
             return View();
@@ -39,30 +37,18 @@ public class HomeController : Controller
         if(Juego.Monto > 0){
             if(apuesta == true){
                 ViewBag.CartaFinal = Juego.ObtenerProximasCartas(1);
-                if((ViewBag.CartaFinal.Numero > Cartas[0] && ViewBag.CartaFinal.Numero < Cartas[1]) || (ViewBag.CartaFinal.Numero < Cartas[0] && ViewBag.CartaFinal.Numero > Cartas[1])){
-                    foreach(Jugador jug in Juego.ListaJugando){
-                        if(jug.IdJugador == idJugador){
-                            jug.Saldo += montoApostado;
-                            Juego.Monto -= montoApostado;
-                        }
-                    }
-                }else{
-                    foreach(Jugador jug in Juego.ListaJugando){
-                        if(jug.IdJugador == idJugador){
-                            jug.Saldo -= montoApostado;
-                            Juego.Monto += montoApostado;
-                        }
-                    }
-                }
             }
-            Cartas = Juego.ObtenerProximasCartas(2);
-            ViewBag.Cartas = Cartas;
+            ViewBag.Cartas = Juego.ObtenerProximasCartas(2);
         }
         
 
         return View("Fin");
     }    
 
+    public IActionResult EliminarJugador(int id){
+        BD.EliminarJugador(id);
+        return RedirectToAction("Configurar", "Home");
+    }
 
     public IActionResult Privacy()
     {
