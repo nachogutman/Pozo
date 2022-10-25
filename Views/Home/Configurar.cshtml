@@ -37,8 +37,31 @@
   </tbody>
 </table>
 
+<input type="range" id="points" name="points" min="100" max="500" value="69">
+<button id="cargar" class="btn btn-secondary" onbclick="cargar"> Jugar </button>
+
 <script>
+  var listaIds = [];
   function check(id){
-   console.log(id);
+    var aux = false;
+    listaIds.forEach( (e) => {
+      if(e == id){
+        aux = true;
+        const index = listaIds.indexOf(id);
+        listaIds.splice(index, 1);
+      }
+    });
+
+    if(aux == false){
+      listaIds.push(id);
+    }
+
+    listaIds.forEach( (e) => {
+      console.log(e);
+    });
+  }
+
+  function cargar(){
+    window.location.href = '@Url.Action("Home", "CargarPartida", new{cantJugadores=${listaIds.length}, montoInicial=${range.value}, listaIdsJugando=${lsitaIds})';
   }
 </script>

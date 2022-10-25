@@ -12,7 +12,7 @@ namespace Pozo.Models{
     public class BD{        
 
         private static string server = Dns.GetHostName();
-        private static string _connectionString = @$"Server={server};DataBase=Pozo;Trusted_Connection=True;";        
+        private static string _connectionString = @$"Server={server}\SQLEXPRESS;DataBase=Pozo;Trusted_Connection=True;";        
 
         public static List<Carta> ObtenerMazo(){
             List<Carta> listaCartas = new List<Carta>();

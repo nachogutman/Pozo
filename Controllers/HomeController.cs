@@ -24,8 +24,17 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult CargarPartida(int cantJugadores, int montoInicial, List<Jugador> listaJugando){
-        Juego.CargarPartida(montoInicial, cantJugadores, listaJugando);
+    public IActionResult CargarPartida(int cantJugadores, int montoInicial, List<int> listaIdsJugando){
+        List<Jugador> ListaTodosJugadores = BD.ObtenerListaJugadores();
+        List<Jugador> ListaJugando = new List<Jugador>();
+        foreach(int id in listaIdsJugando){
+            foreach(Jugador jug in ListaTodosJugadores){
+                if(id == jug.IdJugador){
+                    ListaJugando.Add(jug);
+                }
+            }
+        }
+        Juego.CargarPartida(montoInicial, cantJugadores, ListaJugando);
         return RedirectToAction("Jugar","Home", new {apuesta = false, montoApostado = -1});
     }
 
