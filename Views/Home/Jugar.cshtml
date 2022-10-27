@@ -1,1 +1,35 @@
-<h1> Hola </h1>
+@{
+    ViewData["Title"] = "Juego";
+}
+
+
+
+<h1> @ViewBag.MontoPozo </h1>
+@foreach(Jugador jug in @ViewBag.ListaJugadores)
+{
+    <img class="imagenesCartas" src="@ViewBag.Cartas[0].Foto">
+    <img class="imagenesCartas" src="@ViewBag.Cartas[1].Foto">
+
+    <input type="number" id="apuesta" min="100" max="@ViewBag.MontoPozo" required>
+    <button id="apostar" value="@jug.IdJugador" onclick="apostar()"> Apostar </button>
+}
+
+<script>
+    function apostar(){
+         $.ajax({
+            url: '/Home/Jugar',
+            data: {montoApostado: $("#apuesta").val(), idApostando: $("#apostar").val()},
+            type:'POST',
+            dataType:'JSON',            
+            success:
+                function (){
+                    <img src="@ViewBag.CartaFinal.Foto"></img>
+                    
+                },
+            error:
+                function(){
+                    console.log('error');
+                }
+            });
+    }
+</script>

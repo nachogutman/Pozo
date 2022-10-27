@@ -24,39 +24,36 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult CargarPartida(int cantJugadores, int montoInicial, string stringJugando){
+    public IActionResult CargarPartida(int montoInicial, int[] idsJugando){
         List<Jugador> ListaTodosJugadores = BD.ObtenerListaJugadores();
         List<Jugador> ListaJugando = new List<Jugador>();
-        System.Console.WriteLine(stringJugando);
-        int[] listaIdsJugando = {0, 1};
-        foreach(int id in listaIdsJugando){
+        foreach(int id in idsJugando){
             foreach(Jugador jug in ListaTodosJugadores){
                 if(id == jug.IdJugador){
                     ListaJugando.Add(jug);
                 }
             }
         }
-        Juego.CargarPartida(montoInicial, cantJugadores, ListaJugando);
-        return RedirectToAction("Jugar","Home", new {apuesta = false, montoApostado = -1});
+        Juego.CargarPartida(montoInicial, ListaJugando.Count(), ListaJugando);
+        return RedirectToAction("Jugar","Home", new {montoApostado = -1, idApostando = -1});
     }
 
-    public string Jugar(string apuesta, int montoApostado){  
-        System.Console.WriteLine("hola");
+    public IActionResult Jugar(int montoApostado, int idApostando){  
+        ViewBag.MontoPozo = Juego.Monto;
+        ViewBag.CantJugadores = Juego.CantJugadores;
+        ViewBag.ListaJugadores = Juego.ListaJugando;
+        ViewBag.CartaFinal = null;
         if(montoApostado == -1){
             ViewBag.Cartas = Juego.ObtenerProximasCartas(2);
-            return "/Home/Jugar?apuesta=false$montoApostado=-10";
+            return View("Jugar");
         }
         if(Juego.Monto > 0){
-            if(apuesta != "false"){
+            if(montoApostado != 0){
                 ViewBag.CartaFinal = Juego.ObtenerProximasCartas(1);
             }
             ViewBag.Cartas = Juego.ObtenerProximasCartas(2);
         }
-        return "/Home/Fin";
-    }
-
-    public IActionResult Fin(){
-        return View();
+        return View("Fin");
     }
 
     public IActionResult EliminarJugador(int id){

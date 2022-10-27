@@ -16,7 +16,6 @@ namespace Pozo.Models{
         private static int _cantJugadores = 0;
         private static List<Jugador> _listaJugando;
         private static List<Carta> _mazo;
-
         public static int MontoInicial{
             get{return _montoInicial;}
             set{_montoInicial = value;}
@@ -42,10 +41,14 @@ namespace Pozo.Models{
             set{_cantJugadores = value;}
         }
 
+        public static List<Jugador> ListaJugando{
+            get{return _listaJugando;}
+            set{_listaJugando = value;}
+        }
         public static void CargarPartida(int montoInicial, int cantJugadores, List<Jugador> listaJugando){
             _montoInicial = montoInicial;
-            _monto = montoInicial;
-            _recordMonto = montoInicial;
+            _monto = montoInicial * cantJugadores;
+            _recordMonto = _monto;
             _cantJugadores = cantJugadores;
             _listaJugando = listaJugando;
             _mazo = BD.ObtenerMazo();

@@ -8,68 +8,37 @@
     <h1 class="display-4">Configuracion</h1>
 </div>
 
-<table class="table text-white">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Saldo</th>
-      <th scope="col">Record</th>
-      <th scope="col">Eliminar</th>
-      <th scope="col">Juega</th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach(Jugador jug in @ViewBag.ListaJugadores){
+<form action='@Url.Action("CargarPartida", "Home")' method="POST">
+  <table class="table text-white">
+    <thead>
       <tr>
-        <th scope="row">@jug.IdJugador</th>
-        <td>@jug.Nombre</td>
-        <td>@jug.Saldo</td>
-        <td>@jug.Record</td>
-        <td> <a class="btn btn-danger" href='@Url.Action("EliminarJugador", "Home", new {id = @jug.IdJugador})'> Eliminar </a></td>
-        <td>
-          <div class="form-check align-center">
-            <input type="checkbox" onclick="check(@jug.IdJugador);" class="form-check-input" id="@jug.IdJugador" style="height: 30px; width: 30px;">
-          </div>
-        </td>
+        <th scope="col">ID</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Saldo</th>
+        <th scope="col">Record</th>
+        <th scope="col">Eliminar</th>
+        <th scope="col">Juega</th>
       </tr>
-    }
-  </tbody>
-</table>
-
-<input type="range" id="points" name="points" min="100" max="500" value="69">
-<button id="cargar" class="btn btn-secondary" onclick="cargar();"> Jugar </button>
-
-<script>
-  var listaIds = [];
-  function check(id){
-    var aux = false;
-    listaIds.forEach( (e) => {
-      if(e == id){
-        aux = true;
-        const index = listaIds.indexOf(id);
-        listaIds.splice(index, 1);
+    </thead>
+    <tbody>
+      @foreach(Jugador jug in @ViewBag.ListaJugadores){
+        <tr>
+          <th scope="row">@jug.IdJugador</th>
+          <td>@jug.Nombre</td>
+          <td>@jug.Saldo</td>
+          <td>@jug.Record</td>
+          <td> <a class="btn btn-danger" href='@Url.Action("EliminarJugador", "Home", new {id = @jug.IdJugador})'> Eliminar </a></td>
+          <td>
+            <div class="form-check align-center">
+              <input type="checkbox" onclick="check(@jug.IdJugador);" class="form-check-input" id="@jug.IdJugador" name="idsJugando[]" value="@jug.IdJugador" style="height: 30px; width: 30px;">
+            </div>
+          </td>
+        </tr>
       }
-    });
+    </tbody>
+  </table>
 
-    if(aux == false){
-      listaIds.push(id);
-    }
+  <input type="range" id="points" name="montoInicial" min="100" max="500" value="69">
+  <input type="submit" class="btn btn-secondary" value="Jugar">
 
-    listaIds.forEach( (e) => {
-      console.log(e);
-    });
-  }
-
-  function cargar(){
-    const range = document.getElementById('points');
-    $.ajax({
-      url: '/Home/CargarPartida',
-      data: {cantJugadores: listaIds.length, montoInicial: range.value, stringJugando: listaIds.toString()},
-      success: 
-        function(resp){
-          window.location.href = resp;
-        }
-    });
-  }
-</script>
+</form>
