@@ -24,9 +24,11 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult CargarPartida(int cantJugadores, int montoInicial, List<int> listaIdsJugando){
+    public IActionResult CargarPartida(int cantJugadores, int montoInicial, string stringJugando){
         List<Jugador> ListaTodosJugadores = BD.ObtenerListaJugadores();
         List<Jugador> ListaJugando = new List<Jugador>();
+        System.Console.WriteLine(stringJugando);
+        int[] listaIdsJugando = {0, 1};
         foreach(int id in listaIdsJugando){
             foreach(Jugador jug in ListaTodosJugadores){
                 if(id == jug.IdJugador){
@@ -38,21 +40,24 @@ public class HomeController : Controller
         return RedirectToAction("Jugar","Home", new {apuesta = false, montoApostado = -1});
     }
 
-    public IActionResult Jugar(bool apuesta, int montoApostado){  
+    public string Jugar(string apuesta, int montoApostado){  
+        System.Console.WriteLine("hola");
         if(montoApostado == -1){
             ViewBag.Cartas = Juego.ObtenerProximasCartas(2);
-            return View();
+            return "/Home/Jugar?apuesta=false$montoApostado=-10";
         }
         if(Juego.Monto > 0){
-            if(apuesta == true){
+            if(apuesta != "false"){
                 ViewBag.CartaFinal = Juego.ObtenerProximasCartas(1);
             }
             ViewBag.Cartas = Juego.ObtenerProximasCartas(2);
         }
-        
+        return "/Home/Fin";
+    }
 
-        return View("Fin");
-    }    
+    public IActionResult Fin(){
+        return View();
+    }
 
     public IActionResult EliminarJugador(int id){
         BD.EliminarJugador(id);

@@ -16,7 +16,7 @@ namespace Pozo.Models{
 
         public static List<Carta> ObtenerMazo(){
             List<Carta> listaCartas = new List<Carta>();
-            string SQL = "SELECT * FROM Cartas";
+            string SQL = "SELECT * FROM Carta";
             using(SqlConnection db = new SqlConnection(_connectionString)){
                 listaCartas = db.Query<Carta>(SQL).ToList();
             }

@@ -38,7 +38,7 @@
 </table>
 
 <input type="range" id="points" name="points" min="100" max="500" value="69">
-<button id="cargar" class="btn btn-secondary" onbclick="cargar"> Jugar </button>
+<button id="cargar" class="btn btn-secondary" onclick="cargar();"> Jugar </button>
 
 <script>
   var listaIds = [];
@@ -62,6 +62,14 @@
   }
 
   function cargar(){
-    window.location.href = '@Url.Action("Home", "CargarPartida", new{cantJugadores=${listaIds.length}, montoInicial=${range.value}, listaIdsJugando=${lsitaIds})';
+    const range = document.getElementById('points');
+    $.ajax({
+      url: '/Home/CargarPartida',
+      data: {cantJugadores: listaIds.length, montoInicial: range.value, stringJugando: listaIds.toString()},
+      success: 
+        function(resp){
+          window.location.href = resp;
+        }
+    });
   }
 </script>
