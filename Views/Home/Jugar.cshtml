@@ -3,22 +3,36 @@
 }
 
 
-
+<p> @ViewBag.ListaJugadores[@ViewBag.Turno].Nombre </p>
+<p> @ViewBag.ListaJugadores[@ViewBag.Turno].Saldo </p>
 <h1> @ViewBag.MontoPozo </h1>
-@foreach(Jugador jug in @ViewBag.ListaJugadores)
-{
-    <img class="imagenesCartas" src="@ViewBag.Cartas[0].Foto">
-    <img class="imagenesCartas" src="@ViewBag.Cartas[1].Foto">
 
-    <input type="number" id="apuesta" min="100" max="@ViewBag.MontoPozo" required>
-    <button id="apostar" value="@jug.IdJugador" onclick="apostar()"> Apostar </button>
-}
+<button onclick="cargarCartas();"> Cargar Cartas </button>
 
 <script>
+    function cargarCartas(){
+        $.ajax({
+            url: '/Home/TraerCartas',
+            data: {cant: 2},
+            type:'POST',
+            dataType:'JSON',            
+            success:
+                function (){
+                    <img class="imagenesCartas" src="@ViewBag.Cartas[0].Foto"> </img>
+                    <img class="imagenesCartas" src="@ViewBag.Cartas[1].Foto"> </img>
+
+                    <input type="number" id="apuesta" min="100" max="@ViewBag.MontoPozo" required autocomplete="off"> </input>
+
+                    <button onclick="apostar()"> Apostar </button>
+                    <button onclick="pasar()"> Pasar </button>
+                }
+        });
+    }
+
     function apostar(){
-         $.ajax({
-            url: '/Home/Jugar',
-            data: {montoApostado: $("#apuesta").val(), idApostando: $("#apostar").val()},
+        $.ajax({
+            url: '/Home/Apuesta',
+            data: {montoApostado: $("#apuesta").val(), indexJugador: @ViewBag.Turno, primerasCartas: @ViewBag.Cartas},
             type:'POST',
             dataType:'JSON',            
             success:
@@ -30,6 +44,6 @@
                 function(){
                     console.log('error');
                 }
-            });
+        });
     }
 </script>

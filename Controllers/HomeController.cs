@@ -35,25 +35,39 @@ public class HomeController : Controller
             }
         }
         Juego.CargarPartida(montoInicial, ListaJugando.Count(), ListaJugando);
-        return RedirectToAction("Jugar","Home", new {montoApostado = -1, idApostando = -1});
+        return RedirectToAction("Jugar","Home");
     }
 
-    public IActionResult Jugar(int montoApostado, int idApostando){  
+    public IActionResult Jugar(){  
         ViewBag.MontoPozo = Juego.Monto;
         ViewBag.CantJugadores = Juego.CantJugadores;
         ViewBag.ListaJugadores = Juego.ListaJugando;
-        ViewBag.CartaFinal = null;
-        if(montoApostado == -1){
-            ViewBag.Cartas = Juego.ObtenerProximasCartas(2);
-            return View("Jugar");
+        
+        if(Juego.Turno == ViewBag.CantJugadores){
+            Juego.Turno = 0;
         }
-        if(Juego.Monto > 0){
-            if(montoApostado != 0){
-                ViewBag.CartaFinal = Juego.ObtenerProximasCartas(1);
-            }
-            ViewBag.Cartas = Juego.ObtenerProximasCartas(2);
+
+        Juego.Turno += 1;
+        ViewBag.Turno = Juego.Turno;
+
+        return View();
+    }
+
+    public void Apuesta(int montoApostado, int indexJugador, List<Carta> primerasCartas){
+        ViewBag.CartaFinal = TraerCartas(1);
+
+        if((ViewBag.CartaFinal > primerasCartas[0] && ViewBag.CartaFinal < primerasCartas[1]) || (ViewBag.CartaFinal > primerasCartas[1] && ViewBag.CartaFinal < primerasCartas[0])){
+            Juego.Monto -= montoApostado;
+            Juego.ListaJugando[indexJugador].Saldo += montoApostado;
+        }else{
+            Juego.Monto += montoApostado;
+            Juego.ListaJugando[indexJugador].Saldo -= montoApostado;
         }
-        return View("Fin");
+    }
+
+    public List<Carta> TraerCartas(int cant){
+        List<Carta> Cartas = Juego.ObtenerProximasCartas(cant);
+        return Cartas;
     }
 
     public IActionResult EliminarJugador(int id){

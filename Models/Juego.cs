@@ -16,6 +16,13 @@ namespace Pozo.Models{
         private static int _cantJugadores = 0;
         private static List<Jugador> _listaJugando;
         private static List<Carta> _mazo;
+
+        private static int _turno = -1;
+
+        public static int Turno{
+            get{return _turno;}
+            set{_turno = value;}
+        }
         public static int MontoInicial{
             get{return _montoInicial;}
             set{_montoInicial = value;}
