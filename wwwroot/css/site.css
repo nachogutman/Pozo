@@ -1,19 +1,74 @@
-h1{
-  font-family: Fuente;
-  src: url(/wwwroot/Fuente.otf);
-  font-weight: 100;
-  font-size: 60px;
+@font-face {
+  font-family: 'Fuente2';
+  src: url('/sources/montserrat/Montserrat-Thin.ttf') format("truetype");
+}
+
+
+
+.centrado {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  
+}
+
+.jugar {
+  background-color: aqua;
+  
+  border-radius: 20px;
+  color: blueviolet;
+  font-size: 40px;
+  padding: 5% 400% 5% 400%;
+
+  
+}
+
+.centrado2   {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+
+.eslogan
+{
+  float: right;
+  margin-top: -15px;
+}
+
+.titulo {
+  margin-bottom: -40px;
+}
+
+h1 {
+  
+  font-size: 200px;
+  size: 120px;
+
+}
+
+hr {
+  color: beige;
+  height: 10px;
 }
 
 *{
   padding: 0%;
   margin: 0%;
   color: beige;
+  font-family: Fuente2;
 }
 
-html, body{
+html{
   font-size: 14px;
   background-image: url("/sources/FondoPozo.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 @media (min-width: 768px) {
@@ -30,5 +85,6 @@ html {
 body {
   width: 100%;
   height: 100%;
-  margin: 60px;
+  padding: 60px;
+  background: none;
 }

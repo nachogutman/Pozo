@@ -59,6 +59,7 @@ namespace Pozo.Models{
             _cantJugadores = cantJugadores;
             _listaJugando = listaJugando;
             _mazo = BD.ObtenerMazo();
+            _turno = -1;
         }
 
         public static List<Carta> ObtenerProximasCartas(int cant){

@@ -42,13 +42,16 @@ public class HomeController : Controller
         ViewBag.MontoPozo = Juego.Monto;
         ViewBag.CantJugadores = Juego.CantJugadores;
         ViewBag.ListaJugadores = Juego.ListaJugando;
+
+        Juego.Turno += 1;
         
         if(Juego.Turno == ViewBag.CantJugadores){
             Juego.Turno = 0;
         }
 
-        Juego.Turno += 1;
         ViewBag.Turno = Juego.Turno;
+
+        ViewBag.Cartas = Juego.ObtenerProximasCartas(2);
 
         return View();
     }
