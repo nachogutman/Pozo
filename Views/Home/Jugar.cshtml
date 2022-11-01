@@ -11,24 +11,26 @@
 
 <input type="number" id="apuesta" min="100" max="@ViewBag.MontoPozo" required autocomplete="off">
 
-<button class="btn" onclick="apostar()"> Apostar </button>
-<a class="btn" href='@Url.Action("Jugar", "Home")'> Pasar </a>
+<button class="btn btn-secondary" onclick='Apostar(@ViewBag.Turno, @ViewBag.Cartas[0].Numero, @ViewBag.Cartas[1].Numero)'> Apostar </button>
+<a class="btn btn-danger" href='@Url.Action("Jugar", "Home")'> Pasar </a>
 
 <script>
-    function apostar(){
+    var aux = document.getElementById("apuesta").value;
+    function Apostar(iJ, c1, c2){
         $.ajax({
             url: '/Home/Apuesta',
-            data: {montoApostado: $("#apuesta").val(), indexJugador: @ViewBag.Turno, primerasCartas: @ViewBag.Cartas},
-            type:'POST',
-            dataType:'JSON',            
+            data: {montoApostado: aux, indexJugador: iJ, primeraCarta: c1, segundaCarta: c2},
+            type:'POST',        
             success:
                 function (){
-                    <a class="btn btn-secondary" href='@Url.Action("Jugar", "Home")'> Siguiente </a>
+                    console.log("hola");
                 },
             error:
                 function(){
                     console.log('error');
                 }
         });
+        
     }
+
 </script>

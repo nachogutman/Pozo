@@ -56,16 +56,17 @@ public class HomeController : Controller
         return View();
     }
 
-    public void Apuesta(int montoApostado, int indexJugador, List<Carta> primerasCartas){
-        ViewBag.CartaFinal = TraerCartas(1);
+    [HttpPost]public void Apuesta(int montoApostado, int indexJugador, int primeraCarta, int segundaCarta){
 
-        if((ViewBag.CartaFinal > primerasCartas[0] && ViewBag.CartaFinal < primerasCartas[1]) || (ViewBag.CartaFinal > primerasCartas[1] && ViewBag.CartaFinal < primerasCartas[0])){
+        if((ViewBag.CartaFinal.Numero > primeraCarta && ViewBag.CartaFinal.Numero < segundaCarta) || (ViewBag.CartaFinal.Numero > segundaCarta && ViewBag.CartaFinal.Numero < primeraCarta)){
             Juego.Monto -= montoApostado;
             Juego.ListaJugando[indexJugador].Saldo += montoApostado;
         }else{
             Juego.Monto += montoApostado;
             Juego.ListaJugando[indexJugador].Saldo -= montoApostado;
         }
+
+        ViewBag.CartaFinal =  TraerCartas(1)[0];
     }
 
     public List<Carta> TraerCartas(int cant){

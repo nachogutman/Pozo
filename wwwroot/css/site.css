@@ -3,57 +3,43 @@
   src: url('/sources/montserrat/Montserrat-Thin.ttf') format("truetype");
 }
 
-
-
 .centrado {
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  
 }
 
-.jugar {
+.titulo{
+  padding: 0;
+  margin: 0;
+}
+
+.botonJugar {
   background-color: aqua;
-  
   border-radius: 20px;
   color: blueviolet;
   font-size: 40px;
-  padding: 5% 400% 5% 400%;
-
-  
+  font-weight: 1000;
 }
-
-.centrado2   {
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
 
 .eslogan
 {
-  float: right;
-  margin-top: -15px;
-}
-
-.titulo {
-  margin-bottom: -40px;
+  display: block;
+  text-align: right;
 }
 
 h1 {
-  
   font-size: 200px;
   size: 120px;
-
 }
 
 hr {
   color: beige;
   height: 10px;
+  margin: 0;
+  padding: 0;
 }
 
 *{
