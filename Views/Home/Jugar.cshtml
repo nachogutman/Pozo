@@ -2,28 +2,53 @@
     ViewData["Title"] = "Juego";
 }
 
-<p> @ViewBag.ListaJugadores[@ViewBag.Turno].Nombre </p>
-<p> @ViewBag.ListaJugadores[@ViewBag.Turno].Saldo </p>
-<h1> @ViewBag.MontoPozo </h1>
+<p id="nombre"> @ViewBag.ListaJugadores[@ViewBag.Turno].Nombre </p>
+<p id="saldo"> @ViewBag.ListaJugadores[@ViewBag.Turno].Saldo </p>
 
-<img class="imagenesCartas" src="@ViewBag.Cartas[0].Foto">
-<img class="imagenesCartas" src="@ViewBag.Cartas[1].Foto">
+<div class="centrado">
+    <h1 id="pozo" class="titulo"> @ViewBag.MontoPozo </h1>
+    <div class="contenedorCartas">
+        <img class="imagenesCartas" src="@ViewBag.Cartas[0].Foto">
+        <img class="imagenesCartas" src="@ViewBag.Cartas[1].Foto">
 
-<input type="number" id="apuesta" min="100" max="@ViewBag.MontoPozo" required autocomplete="off">
+        <img id="cartaFinal" class="imagenesCartas" src="@ViewBag.Cartas[1].Foto" style="display: none;">
+    </div>
 
-<button class="btn btn-secondary" onclick='Apostar(@ViewBag.Turno, @ViewBag.Cartas[0].Numero, @ViewBag.Cartas[1].Numero)'> Apostar </button>
-<a class="btn btn-danger" href='@Url.Action("Jugar", "Home")'> Pasar </a>
+    <div class="contenedorCartas">
+        <input type="number" id="apuesta" min="100" max="@ViewBag.MontoPozo" required autocomplete="off" style="color: black; font-weight: 1000;">
+
+        <button class="btn btn-secondary" id="btnApostar" onclick='Apostar(@ViewBag.Turno, @ViewBag.Cartas[0].Numero, @ViewBag.Cartas[1].Numero)'> Apostar </button>
+        <a class="btn btn-danger" id="btnPasar" href='@Url.Action("Jugar", "Home")'> Pasar </a>
+        <a class="btn botonJugar" id="btnSiguiente" href='@Url.Action("Jugar", "Home")' style="display: none;"> Siguiente </a>
+    </div>
+</div>
 
 <script>
-    var aux = document.getElementById("apuesta").value;
+    var gano = false;
     function Apostar(iJ, c1, c2){
         $.ajax({
             url: '/Home/Apuesta',
-            data: {montoApostado: aux, indexJugador: iJ, primeraCarta: c1, segundaCarta: c2},
-            type:'POST',        
+            type:'POST',
+            dataType: 'JSON',
+            data: {montoApostado: document.getElementById("apuesta").value, indexJugador: iJ, primeraCarta: c1, segundaCarta: c2},        
             success:
-                function (){
-                    console.log("hola");
+                function (resp){
+                    document.getElementById('cartaFinal').src = resp.foto;
+                    document.getElementById('cartaFinal').style = "display: relative;";
+
+                    $("#btnApostar").hide();
+                    $("#btnPasar").hide();
+                    $("#apuesta").hide();   
+                    $("#nombre").hide();
+                    $("#saldo").hide();
+                    if((resp.numero > c1 && resp.numero < c2) || (resp.numero > c2 && resp.numero < c1)){
+                        $("#pozo").html('!GANADOR!');
+                    }else{
+                        $("#pozo").html('PERDEDOR');
+                    }
+
+
+                    document.getElementById('btnSiguiente').style = "display: relative;"
                 },
             error:
                 function(){

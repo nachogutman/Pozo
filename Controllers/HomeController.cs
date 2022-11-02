@@ -44,7 +44,6 @@ public class HomeController : Controller
         ViewBag.ListaJugadores = Juego.ListaJugando;
 
         Juego.Turno += 1;
-        
         if(Juego.Turno == ViewBag.CantJugadores){
             Juego.Turno = 0;
         }
@@ -56,9 +55,9 @@ public class HomeController : Controller
         return View();
     }
 
-    [HttpPost]public void Apuesta(int montoApostado, int indexJugador, int primeraCarta, int segundaCarta){
-
-        if((ViewBag.CartaFinal.Numero > primeraCarta && ViewBag.CartaFinal.Numero < segundaCarta) || (ViewBag.CartaFinal.Numero > segundaCarta && ViewBag.CartaFinal.Numero < primeraCarta)){
+    public Carta Apuesta(int montoApostado, int indexJugador, int primeraCarta, int segundaCarta){
+        Carta CartaFinal = TraerCartas(1)[0];
+        if((CartaFinal.Numero > primeraCarta && CartaFinal.Numero < segundaCarta) || (CartaFinal.Numero > segundaCarta && CartaFinal.Numero < primeraCarta)){
             Juego.Monto -= montoApostado;
             Juego.ListaJugando[indexJugador].Saldo += montoApostado;
         }else{
@@ -66,7 +65,12 @@ public class HomeController : Controller
             Juego.ListaJugando[indexJugador].Saldo -= montoApostado;
         }
 
-        ViewBag.CartaFinal =  TraerCartas(1)[0];
+        ViewBag.MontoPozo = Juego.Monto;
+        ViewBag.CantJugadores = Juego.CantJugadores;
+        ViewBag.ListaJugadores = Juego.ListaJugando;
+        ViewBag.Turno = Juego.Turno + 1;
+
+        return CartaFinal;
     }
 
     public List<Carta> TraerCartas(int cant){
