@@ -15,10 +15,10 @@
     </div>
 
     <div class="contenedorCartas">
-        <input type="number" id="apuesta" min="100" max="@ViewBag.MontoPozo" required autocomplete="off" style="color: black; font-weight: 1000;">
+        <input type="number" id="apuesta" min="100" step="100" max="@ViewBag.MontoPozo" required autocomplete="off" style="color: black; font-weight: 1000;">
 
-        <button class="btn btn-secondary" id="btnApostar" onclick='Apostar(@ViewBag.Turno, @ViewBag.Cartas[0].Numero, @ViewBag.Cartas[1].Numero)'> Apostar </button>
-        <a class="btn btn-danger" id="btnPasar" href='@Url.Action("Jugar", "Home")'> Pasar </a>
+        <button class="button-29" role="button" id="btnApostar" onclick='Apostar(@ViewBag.Turno, @ViewBag.Cartas[0].Numero, @ViewBag.Cartas[1].Numero)'> Apostar </button>
+        <a class="button-30" id="btnPasar" href='@Url.Action("Jugar", "Home")'> Pasar </a>
         <a class="btn botonJugar" id="btnSiguiente" href='@Url.Action("Jugar", "Home")' style="display: none;"> Siguiente </a>
     </div>
 </div>
