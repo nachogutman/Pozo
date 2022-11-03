@@ -10,20 +10,17 @@ namespace Pozo.Models{
         private string _nombre;
         private int _saldo;
         private int _record;
-        private bool _jugando;
 
-        public Jugador(string pnombre, int psaldo, int precord, bool pjugando){
+        public Jugador(string pnombre, int psaldo){
             _nombre = pnombre;
             _saldo = psaldo;
-            _record = precord;
-            _jugando = pjugando;
+            _record = psaldo;
         }
 
         public Jugador(){
             _nombre = "";
             _saldo = 0;
             _record = 0;
-            _jugando = false;
         }
 
         public int IdJugador{
@@ -44,11 +41,6 @@ namespace Pozo.Models{
         public int Record{
             get{return _record;}
             set{_record = value;}
-        }
-
-        public bool Jugando{
-            get{return _jugando;}
-            set{_jugando = value;}
         }
 
     }

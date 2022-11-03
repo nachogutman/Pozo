@@ -72,6 +72,13 @@ namespace Pozo.Models{
             }
         }
 
+        public static void AgregarJugador(Jugador jug){
+            string SQL = "INSERT INTO Jugador(nombre, saldo, record) VALUES(@pnombre, @psaldo, @precord)";
+            using(SqlConnection db = new SqlConnection(_connectionString)){
+                db.Execute(SQL, new {pnombre = jug.Nombre, psaldo = jug.Saldo, precord = jug.Record});
+            }
+        }
+
         public static void actualizarHistorial(HistorialPozos pozo){
             string SQL = "INSERT INTO HistorialPozos(montoInicial, recordDeMonto, ganador) VALUES(@pmontoInicial, @precordDeMonto, @pganador)";
             using(SqlConnection db = new SqlConnection(_connectionString)){

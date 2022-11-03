@@ -38,8 +38,11 @@ public class HomeController : Controller
         return RedirectToAction("Jugar","Home");
     }
 
-    public IActionResult Jugar(){  
+    public IActionResult Jugar(){ 
         ViewBag.MontoPozo = Juego.Monto;
+        if(Juego.Monto <= 0){
+            return View("Fin");
+        }
         ViewBag.CantJugadores = Juego.CantJugadores;
         ViewBag.ListaJugadores = Juego.ListaJugando;
 
@@ -80,6 +83,14 @@ public class HomeController : Controller
 
     public IActionResult EliminarJugador(int id){
         BD.EliminarJugador(id);
+        return RedirectToAction("Configurar", "Home");
+    }
+
+    public IActionResult GuardarJugador(string nombre, int saldo)
+    {
+        Jugador newJug = new Jugador(nombre, saldo);
+        BD.AgregarJugador(newJug);
+
         return RedirectToAction("Configurar", "Home");
     }
 

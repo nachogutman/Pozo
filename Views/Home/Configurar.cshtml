@@ -1,44 +1,75 @@
 @{
     ViewData["Title"] = "Configuracion";
 }
+<body>
+  <div id="contenedor">
+    <a class="btn btn-secondary" style="float: right;" href='@Url.Action("Index", "Home")'> Volver a la Home </a>
 
-<a class="btn btn-secondary" style="float: right;" href='@Url.Action("Index", "Home")'> Volver a la Home </a>
+    <div class="text-center">
+        <h1 class="display-4">Configuracion</h1>
+    </div>
 
-<div class="text-center">
-    <h1 class="display-4">Configuracion</h1>
-</div>
+    <button class="apostar mt-3 mb-3" onclick='modal();'> Agregar Jugador </button>
+    <form action='@Url.Action("CargarPartida", "Home")' method="POST">
+      <table class="table text-white">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Saldo</th>
+            <th scope="col">Record</th>
+            <th scope="col">Eliminar</th>
+            <th scope="col">Juega</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach(Jugador jug in @ViewBag.ListaJugadores){
+            <tr>
+              <th scope="row">@jug.IdJugador</th>
+              <td>@jug.Nombre</td>
+              <td>@jug.Saldo</td>
+              <td>@jug.Record</td>
+              <td> <a class="pasar" href='@Url.Action("EliminarJugador", "Home", new {id = @jug.IdJugador})'> Eliminar </a></td>
+              <td>
+                <div class="form-check align-center">
+                  <input type="checkbox" class="form-check-input" id="@jug.IdJugador" name="idsJugando[]" value="@jug.IdJugador" style="height: 30px; width: 30px;">
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
 
-<form action='@Url.Action("CargarPartida", "Home")' method="POST">
-  <table class="table text-white">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Saldo</th>
-        <th scope="col">Record</th>
-        <th scope="col">Eliminar</th>
-        <th scope="col">Juega</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach(Jugador jug in @ViewBag.ListaJugadores){
-        <tr>
-          <th scope="row">@jug.IdJugador</th>
-          <td>@jug.Nombre</td>
-          <td>@jug.Saldo</td>
-          <td>@jug.Record</td>
-          <td> <a class="btn btn-danger" href='@Url.Action("EliminarJugador", "Home", new {id = @jug.IdJugador})'> Eliminar </a></td>
-          <td>
-            <div class="form-check align-center">
-              <input type="checkbox" class="form-check-input" id="@jug.IdJugador" name="idsJugando[]" value="@jug.IdJugador" style="height: 30px; width: 30px;">
-            </div>
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
+      <label></label>
+      <input type="range" class="w-100" id="points" name="montoInicial" min="100" max="500" value="69">
 
-  <input type="range" id="points" name="montoInicial" min="100" max="500" value="69">
-  <input type="submit" class="btn btn-secondary" value="Jugar">
+    </form>
 
-</form>
+    <input type="submit" class="btn botonJugar centrado mt-5 " value="Jugar">
+  </div>
+
+  <div id="modal" style="display: none;" class="box-shadow box-shadow-lg">
+    <form method="post" action='@Url.Action("GuardarJugador", "Home")'>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Nombre</label>
+        <input type="text" class="form-control" name="Nombre" required autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Saldo</label>
+        <input type="text" class="form-control" name="Saldo" required autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <input type="submit" value="Agregar" class="apostar">
+      </div>
+
+    </form>
+  </div>  
+</body>
+
+<script>
+  function modal(){
+    document.getElementById("modal").style = "display: relative;";
+  }
+</script>

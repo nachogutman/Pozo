@@ -3,6 +3,19 @@
   src: url('/sources/montserrat/Montserrat-Thin.ttf') format("truetype");
 }
 
+#modal{
+  margin: auto;
+  background-color: rgba(255, 255,255, .4);
+  width: 400px;
+  height: 400px;
+  border-radius: 40px;
+}
+
+.form-group{
+  padding: 5%;
+  align-items: center;
+}
+
 .centrado {
   position: absolute;
   top: 50%;
@@ -96,7 +109,7 @@ body {
   background: none;
 }
 
-.button-29 {
+.apostar {
   align-items: center;
   appearance: none;
   background-image: radial-gradient(100% 100% at 100% 0, #09d33b 0, #12b68dbb 100%);
@@ -127,21 +140,21 @@ body {
   font-size: 18px;
 }
 
-.button-29:focus {
+.apostar:focus {
   box-shadow: #b4e03c 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
 }
 
-.button-29:hover {
+.apostar:hover {
   box-shadow: rgba(181, 211, 15, 0.4) 0 4px 8px, rgba(255, 21, 21, 0.3) 0 7px 13px -3px, #cc02ff 0 -3px 0 inset;
   transform: translateY(-2px);
 }
 
-.button-29:active {
+.apostar:active {
   box-shadow: #ddae14 0 3px 7px inset;
   transform: translateY(2px);
 }
 
-.button-30 {
+.pasar {
   align-items: center;
   appearance: none;
   background-image: radial-gradient(100% 100% at 100% 0, #b8a9a9 0, #f80f0fbb 100%);
@@ -174,8 +187,17 @@ body {
 
 
 
-.button-30:hover {
- 
+.pasar:focus {
+  box-shadow: #b4e03c 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+}
+
+.pasar:hover {
+  box-shadow: rgba(181, 211, 15, 0.4) 0 4px 8px, rgba(255, 21, 21, 0.3) 0 7px 13px -3px, #cc02ff 0 -3px 0 inset;
   transform: translateY(-2px);
+}
+
+.pasar:active {
+  box-shadow: #ddae14 0 3px 7px inset;
+  transform: translateY(2px);
 }
 
