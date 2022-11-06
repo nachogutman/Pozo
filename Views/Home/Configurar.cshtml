@@ -3,14 +3,26 @@
 }
 <body>
   <div id="contenedor">
-    <a class="btn btn-secondary" style="float: right;" href='@Url.Action("Index", "Home")'> Volver a la Home </a>
+    <a class="btn btn-secondary align-right" style="display: block; width: 15%; margin-left: 85%;" href='@Url.Action("Index", "Home")'> Volver a la Home </a>
 
-    <div class="text-center">
-        <h1 class="display-4">Configuracion</h1>
+    <h1 class="display-3 textCenter"> Configuracion </h1>
+
+    <div class="d-flex">
+      <button class="apostar mt-3 mb-3" onclick='modal();'> Agregar Jugador </button>
+      <div id="modal" style="display: none;" class="box-shadow box-shadow-lg">
+          <form method="post" action='@Url.Action("GuardarJugador", "Home")' class="d-flex justify-content-around p-1">
+              <input type="text" class="text-dark" name="Nombre" required autocomplete="off" placeholder="Nombre">
+
+              <input type="text" class="text-dark" name="Saldo" required autocomplete="off" placeholder="Saldo">
+
+            <input type="submit" value="Agregar" class="apostar">
+
+          </form>
+      </div>  
     </div>
+    
 
-    <button class="apostar mt-3 mb-3" onclick='modal();'> Agregar Jugador </button>
-    <form action='@Url.Action("CargarPartida", "Home")' method="POST">
+    <form class="tabla" action='@Url.Action("CargarPartida", "Home")' method="POST">
       <table class="table text-white">
         <thead>
           <tr>
@@ -19,6 +31,7 @@
             <th scope="col">Saldo</th>
             <th scope="col">Record</th>
             <th scope="col">Eliminar</th>
+            <th scope="col">Cargar Plata</th>
             <th scope="col">Juega</th>
           </tr>
         </thead>
@@ -30,6 +43,7 @@
               <td>@jug.Saldo</td>
               <td>@jug.Record</td>
               <td> <a class="pasar" href='@Url.Action("EliminarJugador", "Home", new {id = @jug.IdJugador})'> Eliminar </a></td>
+              <td> <input id="@jug.IdJugador" type="number" min="100" style="color: black; font-weight: 1000; width: 30%;"> <button class="apostar" onclick=''> Cargar </button></td>
               <td>
                 <div class="form-check align-center">
                   <input type="checkbox" class="form-check-input" id="@jug.IdJugador" name="idsJugando[]" value="@jug.IdJugador" style="height: 30px; width: 30px;">
@@ -40,36 +54,17 @@
         </tbody>
       </table>
 
-      <label></label>
-      <input type="range" class="w-100" id="points" name="montoInicial" min="100" max="500" value="69">
-
+      <label class="textCenter"> Monto Inicial (cada uno):</label>
+      <input type="range" class="w-100" id="points" name="montoInicial" min="100" max="500" value="69" oninput="this.nextElementSibling.value = this.value">
+      <output class="textCenter">69</output>
+      <input type="submit" class="btn botonJugar mt-5 " value="Jugar">
     </form>
 
-    <input type="submit" class="btn botonJugar centrado mt-5 " value="Jugar">
   </div>
-
-  <div id="modal" style="display: none;" class="box-shadow box-shadow-lg">
-    <form method="post" action='@Url.Action("GuardarJugador", "Home")'>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Nombre</label>
-        <input type="text" class="form-control" name="Nombre" required autocomplete="off">
-      </div>
-
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Saldo</label>
-        <input type="text" class="form-control" name="Saldo" required autocomplete="off">
-      </div>
-
-      <div class="form-group">
-        <input type="submit" value="Agregar" class="apostar">
-      </div>
-
-    </form>
-  </div>  
 </body>
 
 <script>
   function modal(){
-    document.getElementById("modal").style = "display: relative;";
+    document.getElementById("modal").style = "display: block;";
   }
 </script>

@@ -30,6 +30,7 @@ public class HomeController : Controller
         foreach(int id in idsJugando){
             foreach(Jugador jug in ListaTodosJugadores){
                 if(id == jug.IdJugador){
+                    System.Console.WriteLine(jug.Nombre);
                     ListaJugando.Add(jug);
                 }
             }
@@ -92,6 +93,11 @@ public class HomeController : Controller
         BD.AgregarJugador(newJug);
 
         return RedirectToAction("Configurar", "Home");
+    }
+
+    public void CargarPlata(int monto, int id){
+        ViewBag.ListaJugadores = BD.ObtenerListaJugadores();
+        BD.cargarPlata(monto, id);
     }
 
     public IActionResult Privacy()

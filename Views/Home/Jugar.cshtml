@@ -1,9 +1,9 @@
 @{
     ViewData["Title"] = "Juego";
 }
+<p id="nombre" class="infoPlayer"> @ViewBag.ListaJugadores[@ViewBag.Turno].Nombre </p>
+<p id="saldo" class="infoPlayer"> @ViewBag.ListaJugadores[@ViewBag.Turno].Saldo </p>
 
-<p id="nombre"> @ViewBag.ListaJugadores[@ViewBag.Turno].Nombre </p>
-<p id="saldo"> @ViewBag.ListaJugadores[@ViewBag.Turno].Saldo </p>
 
 <div class="centrado">
     <h1 id="pozo" class="titulo"> @ViewBag.MontoPozo </h1>

@@ -12,7 +12,7 @@ namespace Pozo.Models{
     public class BD{        
 
         private static string server = Dns.GetHostName();
-        private static string _connectionString = @$"Server={server};DataBase=Pozo;Trusted_Connection=True;";       
+        private static string _connectionString = @$"Server={server}\SQLEXPRESS;DataBase=Pozo;Trusted_Connection=True;";       
         //\SQLEXPRESS
 
         public static List<Carta> ObtenerMazo(){
@@ -83,6 +83,13 @@ namespace Pozo.Models{
             string SQL = "INSERT INTO HistorialPozos(montoInicial, recordDeMonto, ganador) VALUES(@pmontoInicial, @precordDeMonto, @pganador)";
             using(SqlConnection db = new SqlConnection(_connectionString)){
                 db.Execute(SQL, new {pmontoInicial = pozo.MontoInicial, precordDeMonto = pozo.RecordDeMonto, pganador = pozo.Ganador});
+            }
+        }
+
+        public static void cargarPlata(int monto, int IdJugador){
+            string SQL = "UPDATE Jugador SET saldo = saldo + @pmonto WHERE idJugador = @pidJugador";
+            using(SqlConnection db = new SqlConnection(_connectionString)){
+                db.Execute(SQL, new{pmonto = monto, pidJugador = IdJugador});
             }
         }
     }
