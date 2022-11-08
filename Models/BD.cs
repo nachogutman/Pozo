@@ -41,7 +41,7 @@ namespace Pozo.Models{
         }
 
         public static void actualizarJugador(Jugador jug){
-            string SQL = "UPDATE Jugador SET saldo = @psaldo AND record = @precord WHERE idJugador = @pidJugador";
+            string SQL = "UPDATE Jugador SET saldo = @psaldo, record = @precord WHERE idJugador = @pidJugador";
             using(SqlConnection db = new SqlConnection(_connectionString)){
                 db.Execute(SQL, new{psaldo = jug.Saldo, precord = jug.Record, pIdJugador = jug.IdJugador});
             }
@@ -80,9 +80,9 @@ namespace Pozo.Models{
         }
 
         public static void actualizarHistorial(HistorialPozos pozo){
-            string SQL = "INSERT INTO HistorialPozos(montoInicial, recordDeMonto, ganador) VALUES(@pmontoInicial, @precordDeMonto, @pganador)";
+            string SQL = "INSERT INTO HistorialPozos(montoInicial, recordDeMonto) VALUES(@pmontoInicial, @precordDeMonto)";
             using(SqlConnection db = new SqlConnection(_connectionString)){
-                db.Execute(SQL, new {pmontoInicial = pozo.MontoInicial, precordDeMonto = pozo.RecordDeMonto, pganador = pozo.Ganador});
+                db.Execute(SQL, new {pmontoInicial = pozo.MontoInicial, precordDeMonto = pozo.RecordDeMonto});
             }
         }
 

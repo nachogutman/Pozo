@@ -43,7 +43,7 @@
               <td>@jug.Saldo</td>
               <td>@jug.Record</td>
               <td> <a class="pasar" href='@Url.Action("EliminarJugador", "Home", new {id = @jug.IdJugador})'> Eliminar </a></td>
-              <td> <input id="@jug.IdJugador" type="number" min="100" style="color: black; font-weight: 1000; width: 30%;"> <button class="apostar" onclick=''> Cargar </button></td>
+              <td> <input id="@jug.IdJugador" type="number" min="100" style="color: black; font-weight: 1000; width: 30%;"> <button type="button" class="apostar" onclick='cargar(@jug.IdJugador, $("#@jug.IdJugador").val());'> Cargar </button></td>
               <td>
                 <div class="form-check align-center">
                   <input type="checkbox" class="form-check-input" id="@jug.IdJugador" name="idsJugando[]" value="@jug.IdJugador" style="height: 30px; width: 30px;">
@@ -66,5 +66,13 @@
 <script>
   function modal(){
     document.getElementById("modal").style = "display: block;";
+  }
+
+  function cargar(id, monto){
+    $.ajax({
+        url: '/Home/CargarPlata',
+        type:'POST',
+        data: {monto: monto, id: parseInt(id)}        
+    });
   }
 </script>

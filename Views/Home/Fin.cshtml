@@ -1,2 +1,10 @@
-<p> No hay mas plata </p>
-<a href=></a>
+@{
+    ViewData["Title"] = "Fin";
+}
+<body>
+    <div class="text-center text-danger centrado" >
+        <h1 class="titulo">POZO TERMINADO</h1> 
+        <hr> 
+        <a href='@Url.Action("Index", "Home")' class="btn botonJugar"> VOLER A LA HOME </a>
+    </div>
+</body>

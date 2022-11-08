@@ -9,18 +9,15 @@ namespace Pozo.Models{
         private int _idPozo;
         private int _montoInicial;
         private int _recordDeMonto;
-        private string _ganador;
 
-        public HistorialPozos(int pmontoInicial, int precordDeMonto, string pganador){
+        public HistorialPozos(int pmontoInicial, int precordDeMonto){
             _montoInicial = pmontoInicial;
             _recordDeMonto = precordDeMonto;
-            _ganador = pganador;
         }
 
         public HistorialPozos(){
             _montoInicial = 0;
             _recordDeMonto = 0;
-            _ganador = "";
         }
 
         public int IdPozo{
@@ -36,11 +33,6 @@ namespace Pozo.Models{
         public int RecordDeMonto{
             get{return _recordDeMonto;}
             set{_recordDeMonto = value;}
-        }
-
-        public string Ganador{
-            get{return _ganador;}
-            set{_ganador = value;}
         }
     }
 }

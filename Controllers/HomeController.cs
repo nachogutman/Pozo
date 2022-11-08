@@ -21,6 +21,12 @@ public class HomeController : Controller
 
     public IActionResult Configurar(){
         ViewBag.ListaJugadores = BD.ObtenerListaJugadores();
+        foreach(Jugador jug in ViewBag.ListaJugadores){
+            if(jug.Saldo > jug.Record){
+                jug.Record = jug.Saldo;
+                BD.actualizarJugador(jug);
+            }
+        }
         return View();
     }
 
@@ -30,8 +36,8 @@ public class HomeController : Controller
         foreach(int id in idsJugando){
             foreach(Jugador jug in ListaTodosJugadores){
                 if(id == jug.IdJugador){
-                    System.Console.WriteLine(jug.Nombre);
                     ListaJugando.Add(jug);
+                    jug.Saldo -= montoInicial;
                 }
             }
         }
@@ -42,7 +48,7 @@ public class HomeController : Controller
     public IActionResult Jugar(){ 
         ViewBag.MontoPozo = Juego.Monto;
         if(Juego.Monto <= 0){
-            return View("Fin");
+            return RedirectToAction("Fin", "Home");
         }
         ViewBag.CantJugadores = Juego.CantJugadores;
         ViewBag.ListaJugadores = Juego.ListaJugando;
@@ -59,14 +65,31 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult Fin(){
+        foreach(Jugador jug in Juego.ListaJugando){
+            System.Console.WriteLine(jug.Saldo);
+            BD.actualizarJugador(jug);
+        }
+
+        HistorialPozos newPozo = new HistorialPozos(Juego.RecordMonto, Juego.MontoInicial);
+        BD.actualizarHistorial(newPozo);
+        return View();
+    }
+
     public Carta Apuesta(int montoApostado, int indexJugador, int primeraCarta, int segundaCarta){
         Carta CartaFinal = TraerCartas(1)[0];
         if((CartaFinal.Numero > primeraCarta && CartaFinal.Numero < segundaCarta) || (CartaFinal.Numero > segundaCarta && CartaFinal.Numero < primeraCarta)){
             Juego.Monto -= montoApostado;
             Juego.ListaJugando[indexJugador].Saldo += montoApostado;
+            if(Juego.ListaJugando[indexJugador].Saldo > Juego.ListaJugando[indexJugador].Record){
+                Juego.ListaJugando[indexJugador].Record = Juego.ListaJugando[indexJugador].Saldo;
+            }
         }else{
             Juego.Monto += montoApostado;
             Juego.ListaJugando[indexJugador].Saldo -= montoApostado;
+            if(Juego.Monto > Juego.RecordMonto){
+                Juego.RecordMonto = Juego.Monto;
+            }
         }
 
         ViewBag.MontoPozo = Juego.Monto;
@@ -96,8 +119,14 @@ public class HomeController : Controller
     }
 
     public void CargarPlata(int monto, int id){
-        ViewBag.ListaJugadores = BD.ObtenerListaJugadores();
         BD.cargarPlata(monto, id);
+        ViewBag.ListaJugadores = BD.ObtenerListaJugadores();
+        foreach(Jugador jug in ViewBag.ListaJugadores){
+            if(jug.Saldo > jug.Record){
+                jug.Record = jug.Saldo;
+                BD.actualizarJugador(jug);
+            }
+        }
     }
 
     public IActionResult Privacy()
