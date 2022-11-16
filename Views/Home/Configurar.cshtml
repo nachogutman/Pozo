@@ -40,10 +40,10 @@
             <tr>
               <th scope="row">@jug.IdJugador</th>
               <td>@jug.Nombre</td>
-              <td>@jug.Saldo</td>
-              <td>@jug.Record</td>
+              <td id="@jug.IdJugador">@jug.Saldo</td>
+              <td id="@jug.Nombre">@jug.Record</td>
               <td> <a class="pasar" href='@Url.Action("EliminarJugador", "Home", new {id = @jug.IdJugador})'> Eliminar </a></td>
-              <td> <input id="@jug.IdJugador" type="number" min="100" style="color: black; font-weight: 1000; width: 30%;"> <button type="button" class="apostar" onclick='cargar(@jug.IdJugador, $("#@jug.IdJugador").val());'> Cargar </button></td>
+              <td> <input class="@jug.IdJugador" type="number" min="100" style="color: black; font-weight: 1000; width: 30%;"> <button type="button" class="apostar" onclick='cargar(@jug.IdJugador, $(".@jug.IdJugador").val(), "@jug.Nombre")'> Cargar </button></td>
               <td>
                 <div class="form-check align-center">
                   <input type="checkbox" class="form-check-input" id="@jug.IdJugador" name="idsJugando[]" value="@jug.IdJugador" style="height: 30px; width: 30px;">
@@ -55,8 +55,8 @@
       </table>
 
       <label class="textCenter"> Monto Inicial (cada uno):</label>
-      <input type="range" class="w-100" id="points" name="montoInicial" min="100" max="500" value="69" oninput="this.nextElementSibling.value = this.value">
-      <output class="textCenter">69</output>
+      <input type="range" class="w-100" id="points" name="montoInicial" min="100" max="500" value="100" oninput="this.nextElementSibling.value = this.value">
+      <output class="textCenter">100</output>
       <input type="submit" class="btn botonJugar mt-5 " value="Jugar">
     </form>
 
@@ -68,7 +68,13 @@
     document.getElementById("modal").style = "display: block;";
   }
 
-  function cargar(id, monto){
+  function cargar(id, monto, nombre){
+    $("#" + id).html(parseInt($("#" + id).html()) + parseInt(monto));
+
+    console.log(nombre);
+    if( parseInt($("#" + id).html()) > parseInt($("#" + nombre).html())){
+      $("#" + nombre).html(parseInt($("#" + id).html()));
+    }
     $.ajax({
         url: '/Home/CargarPlata',
         type:'POST',

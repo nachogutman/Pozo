@@ -119,9 +119,13 @@ public class HomeController : Controller
     }
 
     public void CargarPlata(int monto, int id){
-        BD.cargarPlata(monto, id);
         ViewBag.ListaJugadores = BD.ObtenerListaJugadores();
         foreach(Jugador jug in ViewBag.ListaJugadores){
+            if(id == jug.IdJugador){
+                jug.Saldo += monto;
+                BD.actualizarJugador(jug);
+            }
+
             if(jug.Saldo > jug.Record){
                 jug.Record = jug.Saldo;
                 BD.actualizarJugador(jug);

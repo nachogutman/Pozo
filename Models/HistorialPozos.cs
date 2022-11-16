@@ -10,7 +10,7 @@ namespace Pozo.Models{
         private int _montoInicial;
         private int _recordDeMonto;
 
-        public HistorialPozos(int pmontoInicial, int precordDeMonto){
+        public HistorialPozos(int precordDeMonto, int pmontoInicial){
             _montoInicial = pmontoInicial;
             _recordDeMonto = precordDeMonto;
         }
