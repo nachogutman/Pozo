@@ -31,6 +31,9 @@ public class HomeController : Controller
     }
 
     public IActionResult CargarPartida(int montoInicial, int[] idsJugando){
+        if(idsJugando.Length >= 0){
+            return RedirectToAction("Index","Home");
+        }
         List<Jugador> ListaTodosJugadores = BD.ObtenerListaJugadores();
         List<Jugador> ListaJugando = new List<Jugador>();
         foreach(int id in idsJugando){
