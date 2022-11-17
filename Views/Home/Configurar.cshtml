@@ -10,13 +10,14 @@
     <div class="d-flex">
       <button class="apostar mt-3 mb-3" onclick='modal();'> Agregar Jugador </button>
       <div id="modal" style="display: none;" class="box-shadow box-shadow-lg">
-          <form method="post" action='@Url.Action("GuardarJugador", "Home")' class="d-flex justify-content-around p-1">
-              <input type="text" class="text-dark" name="Nombre" required autocomplete="off" placeholder="Nombre">
+          <form method="post" action='@Url.Action("GuardarJugador", "Home")' class="d-flex justify-content-around p-2" enctype="multipart/form-data">
+              <input type="text" class="text-dark" name="nombre" required autocomplete="off" placeholder="Nombre">
 
-              <input type="text" class="text-dark" name="Saldo" required autocomplete="off" placeholder="Saldo">
+              <input type="text" class="text-dark" name="saldo" required autocomplete="off" placeholder="Saldo">
 
-            <input type="submit" value="Agregar" class="apostar">
+              <input type="file" class="form-control-file d-flex justify-content-end opacity-75 forms" name="Foto" autocomplete="off">
 
+              <input type="submit" value="Agregar" class="apostar">
           </form>
       </div>  
     </div>
@@ -69,16 +70,19 @@
   }
 
   function cargar(id, monto, nombre){
-    $("#" + id).html(parseInt($("#" + id).html()) + parseInt(monto));
-
-    console.log(nombre);
-    if( parseInt($("#" + id).html()) > parseInt($("#" + nombre).html())){
-      $("#" + nombre).html(parseInt($("#" + id).html()));
-    }
     $.ajax({
         url: '/Home/CargarPlata',
         type:'POST',
-        data: {monto: monto, id: parseInt(id)}        
+        data: {monto: monto, id: parseInt(id)},
+        success:
+          function(resp){
+            $("#" + id).html(resp[0]);
+            $("#" + nombre).html(resp[1]);
+          },
+        error: 
+          function(){
+            console.log('error');
+          }      
     });
   }
 </script>

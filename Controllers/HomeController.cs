@@ -1,16 +1,20 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Pozo.Models;
+using Microsoft.AspNetCore.Hosting;
+using System.Linq.Expressions;
+using System.IO;
 
 namespace Pozo.Controllers;
 
 public class HomeController : Controller
-{
+{   
+    private IWebHostEnvironment Environment;
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
+    public HomeController(IWebHostEnvironment _environment)
+    {        
+        Environment = _environment;
     }
 
     public IActionResult Index()
@@ -31,7 +35,7 @@ public class HomeController : Controller
     }
 
     public IActionResult CargarPartida(int montoInicial, int[] idsJugando){
-        if(idsJugando.Length >= 0){
+        if(idsJugando.Length <= 0){
             return RedirectToAction("Index","Home");
         }
         List<Jugador> ListaTodosJugadores = BD.ObtenerListaJugadores();
@@ -113,27 +117,41 @@ public class HomeController : Controller
         return RedirectToAction("Configurar", "Home");
     }
 
-    public IActionResult GuardarJugador(string nombre, int saldo)
+    [HttpPost] public IActionResult GuardarJugador(string nombre, int saldo, IFormFile Foto)
     {
-        Jugador newJug = new Jugador(nombre, saldo);
+        Console.Write(Foto.Length);
+        if(Foto.Length > 0)
+        {
+            string wwwRootLocal = this.Environment.ContentRootPath + @"\wwwroot\sources\profilePictures\" + Foto.FileName;
+            using(var stream = System.IO.File.Create(wwwRootLocal)){
+                Foto.CopyToAsync(stream);
+            }
+        }
+
+
+        Jugador newJug = new Jugador(nombre, saldo, ("/sources/profilePictures/" + Foto.FileName));
         BD.AgregarJugador(newJug);
 
         return RedirectToAction("Configurar", "Home");
     }
 
-    public void CargarPlata(int monto, int id){
+    public int[] CargarPlata(int monto, int id){
+        int[] resp = {0, 0};
         ViewBag.ListaJugadores = BD.ObtenerListaJugadores();
         foreach(Jugador jug in ViewBag.ListaJugadores){
             if(id == jug.IdJugador){
                 jug.Saldo += monto;
                 BD.actualizarJugador(jug);
-            }
-
-            if(jug.Saldo > jug.Record){
-                jug.Record = jug.Saldo;
-                BD.actualizarJugador(jug);
+                if(jug.Saldo > jug.Record){
+                    jug.Record = jug.Saldo;
+                    BD.actualizarJugador(jug);
+                    resp[0] = jug.Saldo;
+                    resp[1] = jug.Record;
+                }
             }
         }
+
+        return resp;
     }
 
     public IActionResult Privacy()

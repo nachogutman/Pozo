@@ -34,9 +34,9 @@ namespace Pozo.Models{
         }
 
         public static void crearJugador(Jugador jug){
-            string SQL = "INSERT INTO Jugador(nombre, saldo, record) VALUES(@pnombre, @psaldo, @precord)";
+            string SQL = "INSERT INTO Jugador(nombre, saldo, record, foto) VALUES(@pnombre, @psaldo, @precord, @pfoto)";
             using(SqlConnection db = new SqlConnection(_connectionString)){
-                db.Execute(SQL, new {pnombre = jug.Nombre, psaldo = jug.Saldo, precord = jug.Record});
+                db.Execute(SQL, new {pnombre = jug.Nombre, psaldo = jug.Saldo, precord = jug.Record, pfoto = jug.Foto});
             }
         }
 
@@ -73,9 +73,9 @@ namespace Pozo.Models{
         }
 
         public static void AgregarJugador(Jugador jug){
-            string SQL = "INSERT INTO Jugador(nombre, saldo, record) VALUES(@pnombre, @psaldo, @precord)";
+            string SQL = "INSERT INTO Jugador(nombre, saldo, record, foto) VALUES(@pnombre, @psaldo, @precord, @pfoto)";
             using(SqlConnection db = new SqlConnection(_connectionString)){
-                db.Execute(SQL, new {pnombre = jug.Nombre, psaldo = jug.Saldo, precord = jug.Record});
+                db.Execute(SQL, new {pnombre = jug.Nombre, psaldo = jug.Saldo, precord = jug.Record, pfoto = jug.Foto});
             }
         }
 

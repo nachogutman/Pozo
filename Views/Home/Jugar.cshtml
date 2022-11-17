@@ -1,8 +1,13 @@
 @{
     ViewData["Title"] = "Juego";
 }
-<p id="nombre" class="infoPlayer"> @ViewBag.ListaJugadores[@ViewBag.Turno].Nombre </p>
-<p id="saldo" class="infoPlayer"> @ViewBag.ListaJugadores[@ViewBag.Turno].Saldo </p>
+<div class="infoPlayer">
+    <div class="profile">
+        <img class="" src="@ViewBag.ListaJugadores[@ViewBag.Turno].Foto">
+        <p class="" id="nombre"> @ViewBag.ListaJugadores[@ViewBag.Turno].Nombre </p>
+    </div>
+    <p id="saldo" class="profile"> @ViewBag.ListaJugadores[@ViewBag.Turno].Saldo </p>
+</div>
 
 
 <div class="centrado">
